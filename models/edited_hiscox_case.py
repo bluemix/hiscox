@@ -4,9 +4,11 @@ import base64
 import qrcode
 from io import BytesIO
 
-class HiscoxCase(models.Model):
-    _name = 'hiscox.case'
+class HiscoxEditedCase(models.Model):
+    _name = 'edited.hiscox.case'
     _description = 'Hiscox Application Case'
+    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
+
 
     name = fields.Char(string='Customer Name', required=True)
     email = fields.Char(string='Email', required=True)
@@ -45,12 +47,13 @@ class HiscoxCase(models.Model):
             self.web_message_notify(title='Success',
                                     message='Application successfully submitted',
                                     notification_type='success')
+
         except requests.exceptions.RequestException as e:
             self.env['ir.logging'].create({
                 'name': 'Hiscox API Error',
                 'type': 'server',
                 'message': str(e),
-                'path': "hiscox.case(%s)" % self.id,
+                'path': "edited.hiscox.case(%s)" % self.id,
                 'func': '',
                 'line': ''
             })
@@ -70,14 +73,15 @@ class HiscoxCase(models.Model):
 
                 # notify user with a popup message
                 self.web_message_notify(title='Info',
-                                        message='Status Retrieved:',
+                                        message='Status Retrieved',
                                         notification_type='info')
+
         except requests.exceptions.RequestException as e:
             self.env['ir.logging'].create({
                 'name': 'Hiscox API Error',
                 'type': 'server',
                 'message': str(e),
-                'path': "hiscox.case(%s)" % self.id,
+                'path': "edited.hiscox.case(%s)" % self.id,
                 'func': '',
                 'line': ''
             })

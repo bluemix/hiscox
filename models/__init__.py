@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-from . import hiscox_case
+from . import edited_hiscox_case

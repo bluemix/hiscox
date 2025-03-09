@@ -1,8 +1,0 @@
-<odoo>
-    <record id="hiscox_case_1" model="hiscox.case">
-        <field name="name">John Doe</field>
-        <field name="email">johndoe@example.com</field>
-        <field name="phone">+123456789</field>
-        <field name="application_status">pending</field>
-    </record>
-</odoo>
