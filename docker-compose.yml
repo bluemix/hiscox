@@ -2,14 +2,14 @@ version: '3.1'
 
 services:
   odoo:
-    build: ./
+    image: odoo:17
     container_name: odoo_hiscox
     depends_on:
       - db
     ports:
       - "8069:8069"
     volumes:
-      - ./hiscox:/mnt/extra-addons/hiscox
+      - ../hiscox:/mnt/extra-addons/hiscox
     environment:
       - HOST=db
       - USER=odoo
@@ -17,7 +17,7 @@ services:
 
   db:
     image: postgres:15
-    container_name: odoo_db
+    container_name: odoo_hiscox_db
     environment:
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=odoo
