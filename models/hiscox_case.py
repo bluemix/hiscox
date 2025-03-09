@@ -40,12 +40,24 @@ class HiscoxCase(models.Model):
             response = requests.post(url, json=payload, headers=headers)
             response.raise_for_status()
             self.application_status = 'submitted'
+
+            # notify user with a popup message
+            self.web_message_notify(title='Success',
+                                    message='Application successfully submitted',
+                                    notification_type='success')
         except requests.exceptions.RequestException as e:
             self.env['ir.logging'].create({
                 'name': 'Hiscox API Error',
                 'type': 'server',
-                'message': str(e)
+                'message': str(e),
+                'path': "hiscox.case(%s)" % self.id,
+                'func': '',
+                'line': ''
             })
+            # notify user with a popup message
+            self.web_message_notify(title='Failure',
+                                    message=f'Error submitting application: {e}',
+                                    notification_type='danger')
 
     def check_status_from_hiscox(self):
         url = f"https://api.hiscox.com/status/{self.id}"
@@ -55,9 +67,29 @@ class HiscoxCase(models.Model):
             status = response.json().get('status')
             if status:
                 self.application_status = status
+
+                # notify user with a popup message
+                self.web_message_notify(title='Info',
+                                        message='Status Retrieved:',
+                                        notification_type='info')
         except requests.exceptions.RequestException as e:
             self.env['ir.logging'].create({
                 'name': 'Hiscox API Error',
                 'type': 'server',
-                'message': str(e)
+                'message': str(e),
+                'path': "hiscox.case(%s)" % self.id,
+                'func': '',
+                'line': ''
             })
+            # notify user with a popup message
+            self.web_message_notify(title='Failure',
+                                    message=f'Error checking status: {e}',
+                                    notification_type='danger')
+
+    def web_message_notify(self, title, message, notification_type):
+        self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
+            'type': notification_type,
+            'title': title,
+            'message': message,
+            'sticky': False,
+        })

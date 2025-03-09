@@ -4,13 +4,25 @@
         <field name="model">hiscox.case</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button string="Generate QR Code" type="object"
+                            name="generate_qr_code" class="btn-primary"/>
+                    <button string="Submit" type="object"
+                            name="submit_to_hiscox" class="btn-secondary"/>
+                    <button string="Check Status" type="object"
+                            name="check_status_from_hiscox" class="btn-secondary"/>
+                </header>
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="email"/>
-                        <field name="phone"/>
-                        <field name="application_status"/>
-                        <field name="qr_code" widget="image"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="application_status"/>F
+                            <field name="qr_code" widget="image" options='{"size": [128, 128]}'/>
+                        </group>
+                        <group>
+                        </group>
                     </group>
                 </sheet>
             </form>
@@ -23,5 +35,5 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_hiscox_case" name="Hiscox Cases" action="action_hiscox_case"/>
+    <menuitem id="menu_hiscox_root" name="Hiscox" action="action_hiscox_case"/>
 </odoo>
