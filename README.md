@@ -19,6 +19,9 @@ How to use this module is shown in the following screenshots. After installing `
 
 ![case-submission-qr-code.png](docs/screenshots/case-submission-qr-code.png)
 
+
+> When the customer wants to fill the form again with any email or mobile number used previously, it will show an existing page status instead of creating a new application request each time.
+
 ### Backoffice
 
 Simpley, you'll see Hiscox menu item, and when clicked, you'll have a list of all submitted application cases
