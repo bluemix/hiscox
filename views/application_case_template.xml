@@ -14,73 +14,71 @@
                 </section>
                 <div class="oe_structure" id="oe_structure_case_form"/>
                 <div id="case_section">
-                    <section class="s_website_form pt16 pb16 o_colored_level" data-vcss="001"
-                             data-snippet="s_website_form" data-name="Form">
-                        <div class="container">
-                            <p>
-                                Please inform us about the case you want to apply for
-                            </p>
-                            <form id="application_case_form" action="/api/hiscox/submit" method="post"
-                                  enctype="multipart/form-data" class="o_mark_required" data-mark="*"
-                                  data-success-mode="redirect"
-                                  data-model_name="">
-                                <div class="s_website_form_rows row s_col_no_bgcolor">
-                                    <div class="mb-0 py-2 s_website_form_field col-12 s_website_form_required"
-                                         data-type="char" data-name="Field">
-                                        <div class="row s_col_no_resize s_col_no_bgcolor">
-                                            <label class="col-form-label col-sm-auto s_website_form_label"
-                                                   style="width: 200px" for="case_name">
-                                                <span class="s_website_form_label_content">Name</span>
-                                                <span class="s_website_form_mark"> *</span>
-                                            </label>
-                                            <div class="col-sm">
-                                                <input type="text" class="form-control s_website_form_input"
-                                                       name="name" required="1" data-fill-with="name"
-                                                       id="case_name"/>
-                                            </div>
+                    <div class="container">
+                        <p>
+                            Please inform us about the case you want to apply for
+                        </p>
+                        <form id="application_case_form" action="/api/hiscox/submit" method="post"
+                              enctype="multipart/form-data" class="o_mark_required" data-mark="*"
+                              data-success-mode="redirect"
+                              data-model_name="">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="s_website_form_rows row s_col_no_bgcolor">
+                                <div class="mb-0 py-2 s_website_form_field col-12 s_website_form_required"
+                                     data-type="char" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label"
+                                               style="width: 200px" for="case_name">
+                                            <span class="s_website_form_label_content">Name</span>
+                                            <span class="s_website_form_mark"> *</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control s_website_form_input"
+                                                   name="name" required="1" data-fill-with="name"
+                                                   id="case_name"/>
                                         </div>
-                                    </div>
-                                    <div class="mb-0 py-2 s_website_form_field col-12 s_website_form_required"
-                                         data-type="email" data-name="Field">
-                                        <div class="row s_col_no_resize s_col_no_bgcolor">
-                                            <label class="col-form-label col-sm-auto s_website_form_label "
-                                                   style="width: 200px" for="case_email">
-                                                <span class="s_website_form_label_content">Email</span>
-                                                <span class="s_website_form_mark"> *</span>
-                                            </label>
-                                            <div class="col-sm">
-                                                <input type="email" class="form-control s_website_form_input"
-                                                       name="email" required="1" data-fill-with="email"
-                                                       id="case_email"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-0 py-2 s_website_form_field col-12 s_website_form_required"
-                                         data-type="email" data-name="Field">
-                                        <div class="row s_col_no_resize s_col_no_bgcolor">
-                                            <label class="col-form-label col-sm-auto s_website_form_label "
-                                                   style="width: 200px" for="case_phone">
-                                                <span class="s_website_form_label_content">Phone</span>
-                                                <span class="s_website_form_mark"> *</span>
-                                            </label>
-                                            <div class="col-sm">
-                                                <input type="tel" class="form-control s_website_form_input"
-                                                       name="phone" required="1" data-fill-with="phone"
-                                                       id="case_phone"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mb-0 py-2 col-12 s_website_form_submit" data-name="Submit Button">
-                                        <div style="width: 200px;" class="s_website_form_label"/>
-                                        <button type="submit"
-                                                class="btn btn-primary btn-lg s_website_form_send o_default_snippet_text">
-                                            Submit</button>
-                                        <span id="s_website_form_result"/>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                    </section>
+                                <div class="mb-0 py-2 s_website_form_field col-12 s_website_form_required"
+                                     data-type="email" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label "
+                                               style="width: 200px" for="case_email">
+                                            <span class="s_website_form_label_content">Email</span>
+                                            <span class="s_website_form_mark"> *</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="email" class="form-control s_website_form_input"
+                                                   name="email" required="1" data-fill-with="email"
+                                                   id="case_email"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-0 py-2 s_website_form_field col-12 s_website_form_required"
+                                     data-type="email" data-name="Field">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label "
+                                               style="width: 200px" for="case_phone">
+                                            <span class="s_website_form_label_content">Phone</span>
+                                            <span class="s_website_form_mark"> *</span>
+                                        </label>
+                                        <div class="col-sm">
+                                            <input type="tel" class="form-control s_website_form_input"
+                                                   name="phone" required="1" data-fill-with="phone"
+                                                   id="case_phone"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-0 py-2 col-12 s_website_form_submit" data-name="Submit Button">
+                                    <div style="width: 200px;" class="s_website_form_label"/>
+                                    <button type="submit"
+                                            class="btn btn-primary btn-lg s_website_form_send o_default_snippet_text">
+                                        Submit</button>
+                                    <span id="s_website_form_result"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </t>

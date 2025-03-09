@@ -1,29 +1,38 @@
-from odoo import models, fields, api
+from odoo import models, fields, http
 import requests
 import base64
 import qrcode
 from io import BytesIO
+
+import logging
+_logger = logging.getLogger(__name__)
+
 
 class HiscoxEditedCase(models.Model):
     _name = 'edited.hiscox.case'
     _description = 'Hiscox Application Case'
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
 
-
     name = fields.Char(string='Customer Name', required=True)
     email = fields.Char(string='Email', required=True)
     phone = fields.Char(string='Phone', required=True)
+
     application_status = fields.Selection([
         ('pending', 'Pending'),
         ('submitted', 'Submitted'),
         ('approved', 'Approved'),
         ('rejected', 'Rejected')
     ], string='Application Status', default='pending')
+
     qr_code = fields.Binary(string='QR Code')
 
     def generate_qr_code(self):
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+
         for record in self:
-            data = f"Name: {record.name}, Email: {record.email}, Phone: {record.phone}"
+            # data = f"Name: {record.name}, Email: {record.email}, Phone: {record.phone}"
+            data = f"{base_url}/api/hiscox/applications/{record.id}"
+            _logger.info(f"generate_qr_code, data: {data}")
             qr = qrcode.make(data)
             buffer = BytesIO()
             qr.save(buffer, format='PNG')
@@ -90,6 +99,7 @@ class HiscoxEditedCase(models.Model):
                                     message=f'Error checking status: {e}',
                                     notification_type='danger')
 
+    # will be used to show pop-up web notifications in case the system user wants to
     def web_message_notify(self, title, message, notification_type):
         self.env['bus.bus']._sendone(self.env.user.partner_id, 'simple_notification', {
             'type': notification_type,

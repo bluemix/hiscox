@@ -1,29 +1,48 @@
-
 from odoo import http
 from odoo.http import request
-import base64
-from io import BytesIO
 import logging
+
+# Set up a logger for the module
 _logger = logging.getLogger(__name__)
 
-class HiscoxWebsite(http.Controller):
-    # @http.route('/hiscox/apply', type='http', auth='public', website=True)
-    # def hiscox_apply_form(self, **kw):
-    #     return request.render('odoo_hiscox.hiscox_application_form')
 
+# Define the HTTP controller for Hiscox application routes
+class HiscoxWebsite(http.Controller):
+
+    # Route to fetch application details by a given case ID
+    @http.route('/api/hiscox/applications/<int:case_id>', type='http', auth='public', methods=['GET'], website=True)
+    def hiscox_application_case(self, case_id):
+        # check case exists before
+        _case = request.env['edited.hiscox.case'].sudo().browse(case_id)
+
+        if _case:  # If the case exists
+            return request.render('hiscox.case_submitted',
+                                  {'qr_code': _case.qr_code, 'status': _case.application_status})
+        else:  # If the case doesn't exist
+            return request.render('hiscox.case_submitted', )
+
+    # Route to handle submission of new or existing applications
     @http.route('/api/hiscox/submit', type='http', auth='public', methods=['POST'], website=True)
     def hiscox_submit_application(self, **post):
-        _case = request.env['edited.hiscox.case'].sudo().create({
-            'name': post.get('name'),
-            'email': post.get('email'),
-            'phone': post.get('phone'),
-            'application_status': 'pending'
-        })
-        _logger.info(f'hiscox_submit_application, _case: {_case}')
-        _case.generate_qr_code()
+        # Check if a case with the same phone or email already exists
+        _case = request.env['edited.hiscox.case'].sudo().search([
+            '|',
+            ('phone', '=', post.get('phone')),
+            ('email', '=', post.get('email'))
+        ])
 
-        qr_image = base64.b64encode(_case.qr_code).decode('utf-8')
-        _logger.info(f'hiscox_submit_application, qr_image: {qr_image}')
+        if _case:  # exists
+            return request.render('hiscox.case_submitted',
+                                  {'qr_code': _case.qr_code, 'status': _case.application_status})
+        else:  # not exists
+            _case = request.env['edited.hiscox.case'].sudo().create({
+                'name': post.get('name'),
+                'email': post.get('email'),
+                'phone': post.get('phone'),
+                'application_status': 'pending',
+            })
+            # Generate a QR code for the new case (assumes this method exists on the model)
+            _case.generate_qr_code()
 
-        return request.render('hiscox.case_submitted', {'qr_code': qr_image})
-
+            # Render the template with the new case's QR code
+            return request.render('hiscox.case_submitted', {'qr_code': _case.qr_code})
