@@ -1,10 +1,5 @@
 from odoo import http
 from odoo.http import request
-import logging
-
-# Set up a logger for the module
-_logger = logging.getLogger(__name__)
-
 
 # Define the HTTP controller for Hiscox application routes
 class HiscoxWebsite(http.Controller):

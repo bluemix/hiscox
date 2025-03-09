@@ -1,6 +1,6 @@
 # Hiscox Odoo Module
 
-A simple module for customer data collection that is integrated with Hiscox API using Odoo v17.
+This Odoo 17 module allows users to submit and track Hiscox insurance applications through a website form.
 
 
 ### User Documentation
@@ -24,3 +24,26 @@ How to use this module is shown in the following screenshots. After installing `
 Simpley, you'll see Hiscox menu item, and when clicked, you'll have a list of all submitted application cases
 
 ![hiscox-menu-odoo.png](docs/screenshots/hiscox-menu-odoo.png)
+
+
+
+## Installation & Running via Docker
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/odoo_hiscox.git
+   cd odoo_hiscox
+   ```
+2. Build and run the Docker containers:
+   ```bash
+   docker compose -f docker/docker-compose.yml up --build -d
+   ```
+3. Access Odoo at:
+   - **Odoo Web Interface**: [http://localhost:8069](http://localhost:8069)
+
+
+### Stopping the Containers
+```bash
+docker-compose down
+```
+

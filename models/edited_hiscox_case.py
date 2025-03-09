@@ -4,9 +4,6 @@ import base64
 import qrcode
 from io import BytesIO
 
-import logging
-_logger = logging.getLogger(__name__)
-
 
 class HiscoxEditedCase(models.Model):
     _name = 'edited.hiscox.case'
@@ -32,7 +29,6 @@ class HiscoxEditedCase(models.Model):
 
         for record in self:
             data = f"{base_url}/api/hiscox/applications/{record.id}"
-            _logger.info(f"generate_qr_code, data: {data}")
             qr = qrcode.make(data)
             buffer = BytesIO()
             qr.save(buffer, format='PNG')
