@@ -36,7 +36,7 @@ Simpley, you'll see Hiscox menu item, and when clicked, you'll have a list of al
    ```
 2. Build and run the Docker containers:
    ```bash
-   docker compose -f docker/docker-compose.yml up --build -d
+   docker compose docker-compose.yml up -d
    ```
 3. Access Odoo at:
    - **Odoo Web Interface**: [http://localhost:8069](http://localhost:8069)
