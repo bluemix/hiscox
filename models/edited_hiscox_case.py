@@ -27,10 +27,10 @@ class HiscoxEditedCase(models.Model):
     qr_code = fields.Binary(string='QR Code')
 
     def generate_qr_code(self):
+        """ will be used to generate QR code based on the case id """
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
 
         for record in self:
-            # data = f"Name: {record.name}, Email: {record.email}, Phone: {record.phone}"
             data = f"{base_url}/api/hiscox/applications/{record.id}"
             _logger.info(f"generate_qr_code, data: {data}")
             qr = qrcode.make(data)
@@ -40,6 +40,7 @@ class HiscoxEditedCase(models.Model):
             record.qr_code = qr_image
 
     def submit_to_hiscox(self):
+        """ will be used to submit data to Hiscox API"""
         url = "https://api.hiscox.com/submit"
         headers = {'Content-Type': 'application/json'}
         payload = {
@@ -72,6 +73,7 @@ class HiscoxEditedCase(models.Model):
                                     notification_type='danger')
 
     def check_status_from_hiscox(self):
+        """ Will be used to check status from Hiscox API"""
         url = f"https://api.hiscox.com/status/{self.id}"
         try:
             response = requests.get(url)
